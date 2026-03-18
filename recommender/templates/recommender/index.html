@@ -1,0 +1,88 @@
+{% extends 'recommender/base.html' %}
+{% block title %}NutriOS — India's AI Diet Planner{% endblock %}
+{% block content %}
+<div class="hero">
+    <div class="hero-badge slide-up">
+        <span class="dot dot-pulse"></span>
+        AI Model Active &nbsp;·&nbsp; 🇮🇳 Indian Diet Engine
+    </div>
+    <h1 class="hero-title slide-up" style="animation-delay:0.1s;">
+        Your body.<br><span class="text-gradient">Your food.</span>
+    </h1>
+    <p class="hero-sub slide-up" style="animation-delay:0.2s;">
+        India's first AI-powered diet planner. Personalized across 5 regional cuisines,
+        your health profile, gender, and fasting preference — in seconds.
+    </p>
+    <div class="hero-actions slide-up" style="animation-delay:0.3s;">
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Start For Free →</a>
+        <a href="{% url 'login' %}" class="btn btn-outline btn-lg">Sign In</a>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-4" style="margin-bottom:4rem;">
+    <div class="metric-card slide-up" style="animation-delay:0.1s;">
+        <div class="metric-label">Regions</div>
+        <div class="metric-value" style="background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">5</div>
+        <div class="metric-unit">North · South · Bengali · Gujarati · Marathi</div>
+    </div>
+    <div class="metric-card slide-up" style="animation-delay:0.15s;">
+        <div class="metric-label">AI Engine</div>
+        <div class="metric-value">RF</div>
+        <div class="metric-unit">Random Forest Classifier</div>
+    </div>
+    <div class="metric-card slide-up" style="animation-delay:0.2s;">
+        <div class="metric-label">Protocols</div>
+        <div class="metric-value">7+</div>
+        <div class="metric-unit">Diabetic · DASH · Keto · Athlete</div>
+    </div>
+    <div class="metric-card slide-up" style="animation-delay:0.25s;">
+        <div class="metric-label">Profiles</div>
+        <div class="metric-value">∞</div>
+        <div class="metric-unit">Gender + Region + Condition</div>
+    </div>
+</div>
+
+<!-- Features -->
+<div style="text-align:center; margin-bottom:2rem;">
+    <h2 class="slide-up" style="font-size:clamp(1.5rem,4vw,2.25rem);font-weight:900;letter-spacing:-0.03em;">
+        Everything you need to <span class="text-gradient">eat right</span>
+    </h2>
+    <p class="text-muted text-sm mt-2 slide-up" style="animation-delay:0.1s;max-width:450px;margin-left:auto;margin-right:auto;">
+        Built specifically for Indian bodies, Indian food, and Indian health.
+    </p>
+</div>
+
+<div class="feature-grid">
+    <div class="feature-card slide-up" style="animation-delay:0.05s;">
+        <div class="feature-icon">🧠</div>
+        <div class="feature-title">AI Diet Prediction</div>
+        <div class="feature-desc">Random Forest model trained on gender, BMI, lifestyle, age, and 5 health conditions.</div>
+    </div>
+    <div class="feature-card slide-up" style="animation-delay:0.1s;">
+        <div class="feature-icon">🗺️</div>
+        <div class="feature-title">5-Region Indian Cuisine</div>
+        <div class="feature-desc">North, South, Bengali, Gujarati, or Maharashtrian — meals match your local food.</div>
+    </div>
+    <div class="feature-card slide-up" style="animation-delay:0.15s;">
+        <div class="feature-icon">⏱️</div>
+        <div class="feature-title">Intermittent Fasting</div>
+        <div class="feature-desc">16:8, 5:2, or OMAD. Meal schedule auto-adjusts with a live countdown timer.</div>
+    </div>
+    <div class="feature-card slide-up" style="animation-delay:0.2s;">
+        <div class="feature-icon">💧</div>
+        <div class="feature-title">Hydration Tracking</div>
+        <div class="feature-desc">Daily water goal auto-calculated. Track glasses with one click — resets daily.</div>
+    </div>
+    <div class="feature-card slide-up" style="animation-delay:0.25s;">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Nutrient Alerts</div>
+        <div class="feature-desc">Real-time warnings when your protein, carbs, or fat intake drifts off-target.</div>
+    </div>
+    <div class="feature-card slide-up" style="animation-delay:0.3s;">
+        <div class="feature-icon">📄</div>
+        <div class="feature-title">PDF Export</div>
+        <div class="feature-desc">Download your full weekly meal plan, metrics, and Indian grocery list as PDF.</div>
+    </div>
+</div>
+{% endblock %}

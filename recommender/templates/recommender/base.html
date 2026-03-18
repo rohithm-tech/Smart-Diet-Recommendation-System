@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NutriOS — Smart Diet Engine{% endblock %}</title>
+    <meta name="description" content="India's most intelligent AI-powered diet recommendation system. Personalized nutrition for every Indian region and health condition.">
+    <meta name="theme-color" content="#060608">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container nav-wrap">
+        <a href="{% url 'index' %}" class="brand">
+            <div class="brand-icon">🧬</div>
+            NutriOS
+        </a>
+        <nav class="nav-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+                <a href="{% url 'profile_setup' %}" class="nav-item {% if request.resolver_match.url_name == 'profile_setup' %}active{% endif %}">Profile</a>
+                <a href="{% url 'export_plan_pdf' %}" class="nav-item">Export</a>
+                <a href="{% url 'logout' %}" class="btn btn-outline btn-sm">Sign Out</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-item">Sign In</a>
+                <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Get Started</a>
+            {% endif %}
+        </nav>
+        <button class="nav-toggle" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+<nav class="mobile-menu" id="mob">
+    {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}">📊 Dashboard</a>
+        <a href="{% url 'profile_setup' %}">⚙️ Profile</a>
+        <a href="{% url 'export_plan_pdf' %}">📄 Export PDF</a>
+        <a href="{% url 'logout' %}" style="color:var(--red);">Sign Out</a>
+    {% else %}
+        <a href="{% url 'login' %}">Sign In</a>
+        <a href="{% url 'register' %}" style="color:var(--accent-bright);">Get Started</a>
+    {% endif %}
+</nav>
+
+<main class="main-wrapper">
+    <div class="container">
+        {% if messages %}
+        <div class="toast-stack">
+            {% for message in messages %}
+            <div class="toast">
+                <span class="dot {% if message.tags == 'success' %}dot-green{% elif message.tags == 'error' %}dot-red{% else %}dot-yellow{% endif %}"></span>
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<script>
+setTimeout(() => document.querySelectorAll('.toast').forEach(t => { t.style.transition='opacity 0.5s'; t.style.opacity='0'; setTimeout(()=>t.remove(),500); }), 4000);
+</script>
+</body>
+</html>

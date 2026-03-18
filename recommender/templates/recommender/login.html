@@ -1,0 +1,38 @@
+{% extends 'recommender/base.html' %}
+{% block title %}Sign In — NutriOS{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card fade-in">
+    <div style="text-align:center;margin-bottom:2rem;">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--g1),var(--g2));margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 30px rgba(99,102,241,0.3);">🔐</div>
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-sub">Sign in to your personalized Indian diet dashboard.</p>
+    </div>
+    {% if messages %}{% for message in messages %}
+    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %}" style="margin-bottom:1rem;">
+        <span class="alert-icon">{% if message.tags == 'error' %}⚠️{% else %}ℹ️{% endif %}</span>
+        <div>{{ message }}</div>
+    </div>
+    {% endfor %}{% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username</label>
+            <input type="text" name="username" id="id_username" class="form-control"
+                   placeholder="Enter your username" autocomplete="username" required
+                   value="{{ form.username.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group" style="margin-bottom:1.75rem;">
+            <label for="id_password">Password</label>
+            <input type="password" name="password" id="id_password" class="form-control"
+                   placeholder="Enter your password" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="padding:0.8rem;">Sign In →</button>
+    </form>
+    <div style="text-align:center;margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border);">
+        <span class="text-dim text-sm">No account? </span>
+        <a href="{% url 'register' %}" style="color:var(--accent-bright);font-weight:600;font-size:0.825rem;">Create free →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

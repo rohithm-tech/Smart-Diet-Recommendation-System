@@ -1,0 +1,22 @@
+# render.yaml — Render Blueprint (optional, for auto-deploy)
+services:
+  - type: web
+    name: nutrios-smart-diet
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn diet_system.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.7"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: RENDER
+        value: "True"
+
+databases:
+  - name: nutrios-db
+    plan: free
+    databaseName: nutrios_db
+    user: nutrios_user

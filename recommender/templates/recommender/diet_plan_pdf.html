@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Diet Plan - {{ user.username }}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;900&display=swap');
+  body { font-family: 'Inter', sans-serif; background: #fff; color: #111; margin: 0; padding: 0; }
+  .cover { background: linear-gradient(135deg, #0a0a12 0%, #111 100%); color: #fff; padding: 60px 48px 48px; }
+  .brand { font-family: 'Outfit', sans-serif; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #64748b; margin-bottom: 48px; }
+  .cover h1 { font-family: 'Outfit', sans-serif; font-size: 48px; font-weight: 900; margin: 0 0 8px; line-height: 1.1; }
+  .cover .sub { color: #94a3b8; font-size: 16px; margin-bottom: 40px; }
+  .stats { display: flex; gap: 40px; flex-wrap: wrap; }
+  .stat label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #64748b; margin-bottom: 4px; }
+  .stat span { font-size: 22px; font-weight: 700; color: #e2e8f0; }
+  .section { padding: 40px 48px; border-bottom: 1px solid #e2e8f0; }
+  .section h2 { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 24px; color: #111; }
+  .pill { display: inline-block; padding: 4px 14px; border-radius: 99px; font-size: 11px; font-weight: 600; border: 1px solid #e2e8f0; color: #475569; margin: 0 4px 4px 0; }
+  .pill.warn { border-color: #f59e0b; color: #b45309; background: #fffbeb; }
+  .pill.crit { border-color: #ef4444; color: #b91c1c; background: #fef2f2; }
+  .meal-block { margin-bottom: 32px; }
+  .meal-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #94a3b8; margin-bottom: 8px; }
+  .meal-name { font-weight: 600; font-size: 18px; color: #0f172a; margin-bottom: 10px; }
+  .food-item { padding: 8px 0; border-bottom: 1px dashed #f1f5f9; font-size: 14px; display: flex; align-items: center; gap: 12px; }
+  .food-dot { width: 4px; height: 4px; border-radius: 50%; background: #3b82f6; flex-shrink: 0; }
+  .footer { padding: 24px 48px; background: #f8fafc; font-size: 11px; color: #94a3b8; display: flex; justify-content: space-between; }
+  .grocery-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .grocery-item { padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="brand">Smart Diet Recommendation System &nbsp;&bull;&nbsp; India</div>
+  <h1>AI Diet<br>Protocol</h1>
+  <div class="sub">{{ predicted_diet }}</div>
+  <div class="stats">
+    <div class="stat"><label>Name</label><span>{{ user.first_name|default:user.username }}</span></div>
+    <div class="stat"><label>BMI</label><span>{{ profile.bmi|floatformat:1 }}</span></div>
+    <div class="stat"><label>Age</label><span>{{ profile.age }}y</span></div>
+    <div class="stat"><label>Region</label><span>{{ profile.get_region_preference_display }}</span></div>
+    <div class="stat"><label>Fasting</label><span>{{ profile.get_fasting_mode_display }}</span></div>
+    <div class="stat"><label>Generated</label><span>{{ today_date }}</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Health Parameters</h2>
+  <span class="pill">{{ profile.get_gender_display }}</span>
+  <span class="pill">{{ profile.get_lifestyle_display }}</span>
+  {% if profile.has_diabetes %}<span class="pill warn">Diabetic</span>{% endif %}
+  {% if profile.has_hypertension %}<span class="pill warn">Hypertension</span>{% endif %}
+  {% if profile.has_heart_disease %}<span class="pill crit">Heart Risk</span>{% endif %}
+  {% if profile.has_celiac %}<span class="pill">Gluten-Free</span>{% endif %}
+  {% if profile.has_lactose_intolerance %}<span class="pill">Lactose-Free</span>{% endif %}
+</div>
+
+<div class="section">
+  <h2>Daily Meal Plan</h2>
+  {% for meal_type, items in detailed_plan.items %}
+  <div class="meal-block">
+    <div class="meal-label">Meal {{ forloop.counter }}</div>
+    <div class="meal-name">{{ meal_type }}</div>
+    {% for item in items %}
+    <div class="food-item"><span class="food-dot"></span> {{ item }}</div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+
+<div class="section">
+  <h2>Weekly Grocery List</h2>
+  <div class="grocery-grid">
+    {% for item in grocery_items %}
+    <div class="grocery-item">☐ &nbsp;{{ item }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="footer">
+  <span>Smart Diet Recommendation System &mdash; AI-Powered, India-Localized</span>
+  <span>{{ user.username }} &nbsp;&bull;&nbsp; {{ today_date }}</span>
+</div>
+
+</body>
+</html>

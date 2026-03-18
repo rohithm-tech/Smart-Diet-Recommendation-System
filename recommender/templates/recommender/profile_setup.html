@@ -1,0 +1,91 @@
+{% extends 'recommender/base.html' %}
+{% block title %}Profile Setup — NutriOS{% endblock %}
+{% block content %}
+<div style="max-width:800px;margin:2rem auto 0;" class="fade-in">
+    <div style="margin-bottom:2.5rem;">
+        <div class="badge badge-purple" style="margin-bottom:1rem;"><span class="dot dot-pulse"></span> Profile Configuration</div>
+        <h1 style="font-size:clamp(1.5rem,4vw,2.25rem);font-weight:900;letter-spacing:-0.03em;">Setup Your <span class="text-gradient">Health Profile</span></h1>
+        <p class="text-muted text-sm mt-2">The AI needs your data to generate a precise, personalized Indian diet plan.</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Identity -->
+        <div class="form-section slide-up" style="animation-delay:0.05s;">
+            <div class="form-section-title"><span style="color:var(--accent);">01</span> Identity</div>
+            <div class="form-row cols-3">
+                <div class="form-group"><label>Gender</label>{{ form.gender }}</div>
+                <div class="form-group"><label>Age (Years)</label>{{ form.age }}</div>
+                <div class="form-group"><label>Activity Level</label>{{ form.lifestyle }}</div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="form-section slide-up" style="animation-delay:0.1s;">
+            <div class="form-section-title"><span style="color:var(--accent);">02</span> Body Metrics</div>
+            <div class="form-row cols-2">
+                <div class="form-group"><label>Height (cm)</label>{{ form.height }}</div>
+                <div class="form-group"><label>Weight (kg)</label>{{ form.weight }}</div>
+            </div>
+        </div>
+
+        <!-- Region + Fasting -->
+        <div style="display:grid;grid-template-columns:1fr;gap:1rem;margin-bottom:1rem;" class="slide-up" style="animation-delay:0.15s;">
+            <div style="display:grid;gap:1rem;grid-template-columns:1fr 1fr;">
+                <div class="form-section" style="margin-bottom:0;">
+                    <div class="form-section-title"><span style="color:var(--accent);">03</span> 🇮🇳 Regional Cuisine</div>
+                    <p class="text-dim text-xs mb-3" style="margin-bottom:0.75rem;">AI tailors meals to your local Indian food traditions.</p>
+                    <div class="form-group" style="margin-bottom:0;"><label>Region</label>{{ form.region_preference }}</div>
+                </div>
+                <div class="form-section" style="margin-bottom:0;">
+                    <div class="form-section-title"><span style="color:var(--accent);">04</span> ⏱ Fasting Protocol</div>
+                    <p class="text-dim text-xs mb-3" style="margin-bottom:0.75rem;">The meal plan adapts to your fasting window automatically.</p>
+                    <div class="form-group" style="margin-bottom:0;"><label>Mode</label>{{ form.fasting_mode }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Conditions -->
+        <div class="form-section slide-up" style="animation-delay:0.2s;">
+            <div class="form-section-title"><span style="color:var(--accent);">05</span> Health Conditions</div>
+            <p class="text-dim text-xs" style="margin-bottom:1rem;">Select all active conditions. The AI uses these as hard constraints.</p>
+            <div class="pill-grid">
+                <span>{{ form.has_diabetes }}</span><label class="pill-label" for="{{ form.has_diabetes.id_for_label }}">🩸 Diabetic</label>
+                <span>{{ form.has_hypertension }}</span><label class="pill-label" for="{{ form.has_hypertension.id_for_label }}">💊 Hypertension</label>
+                <span>{{ form.has_heart_disease }}</span><label class="pill-label" for="{{ form.has_heart_disease.id_for_label }}">❤️ Heart Disease</label>
+                <span>{{ form.has_celiac }}</span><label class="pill-label" for="{{ form.has_celiac.id_for_label }}">🌾 Gluten</label>
+                <span>{{ form.has_lactose_intolerance }}</span><label class="pill-label" for="{{ form.has_lactose_intolerance.id_for_label }}">🥛 Lactose</label>
+            </div>
+        </div>
+
+        {% if form.errors %}
+        <div class="alert alert-danger" style="margin-bottom:1rem;">
+            <span class="alert-icon">⚠️</span>
+            <div>{% for f in form %}{% for e in f.errors %}{{ f.label }}: {{ e }}<br>{% endfor %}{% endfor %}{% for e in form.non_field_errors %}{{ e }}<br>{% endfor %}</div>
+        </div>
+        {% endif %}
+
+        <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:0.5rem;" class="slide-up" style="animation-delay:0.25s;">
+            <a href="{% url 'dashboard' %}" class="btn btn-outline">← Dashboard</a>
+            <button type="submit" class="btn btn-primary btn-lg">⚡ Save Profile</button>
+        </div>
+    </form>
+</div>
+
+<style>
+    .form-section select, .form-section input[type="number"], .form-section input[type="text"] {
+        background: var(--bg-glass); border: 1px solid var(--border-2);
+        border-radius: var(--radius-sm); color: var(--text);
+        font-family: var(--font-body); font-size: 0.9rem;
+        padding: 0.7rem 1rem; width: 100%;
+        transition: all 0.25s var(--ease);
+    }
+    .form-section select:focus, .form-section input:focus {
+        outline: none; border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(167,139,250,0.12);
+    }
+    .form-section select option { background: #1a1a1f; color: var(--text); }
+    .pill-grid > span { display: none; }
+</style>
+{% endblock %}
